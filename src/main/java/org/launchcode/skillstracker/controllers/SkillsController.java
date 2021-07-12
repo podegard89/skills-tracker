@@ -2,9 +2,13 @@ package org.launchcode.skillstracker.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class SkillsController {
+
+    public static String html;
+
     @GetMapping
     @ResponseBody
     public String startSkills() {
@@ -51,12 +55,19 @@ public class SkillsController {
     // favorite --> String
     // second --> String
     // third --> String
-    public String formResults(@RequestParam String username, @RequestParam String first, @RequestParam String second, @RequestParam String third) {
-        return "<h1>" + username + "</h1>" +
+    public RedirectView formResults(@RequestParam String username, @RequestParam String first, @RequestParam String second, @RequestParam String third) {
+        html = "<h1>" + username + "</h1>" +
                 "<ol>" +
                 "<li>" + first + "</li>" +
                 "<li>" + second + "</li>" +
                 "<li>" + third + "</li>" +
                 "</ol>";
+        return new RedirectView("/results");
+    }
+
+    @GetMapping("/results")
+    @ResponseBody
+    public String results() {
+        return html;
     }
 }
